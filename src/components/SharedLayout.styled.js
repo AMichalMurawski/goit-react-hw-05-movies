@@ -18,7 +18,11 @@ export const Header = styled.header`
 `;
 
 export const Link = styled(NavLink)`
-  &.active {
-    color: blue;
+  &:hover,
+  &:focus{
+    color:blue;
+  }
+  &:not(:hover){
+    color:black;
   }
 `;

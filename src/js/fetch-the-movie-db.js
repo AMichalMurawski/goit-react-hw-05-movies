@@ -12,35 +12,27 @@ const fetchMovies = (searchUrl, parameters) =>{
     })
         .then(response => {
             if (response.status === 404) {
-                throw Error ("Can't find data!")
+                return response
             }
             return response
         })
         .then(response => {
             return response
         })
-        .catch(error => error)
 }
 
 const fetchMoviesTrendingDay = async () => {
-    const searchUrl = "/trending/all/day";
+    const searchUrl = "/trending/movie/day";
     const parameters = {};
     const response = await fetchMovies(searchUrl, parameters);
     let moviesList = [];
     response.data.results.forEach(movie => {
-        let title = "";
-        if (movie.title) {
-            title=movie.title
-        } else {
-            title=movie.name
-        }
-        return moviesList.push({id:movie.id, title})
+    return moviesList.push({id:movie.id, title:movie.title})
     });
     return moviesList
 }
 
 const fetchMoviesSearch = async (filter) => {
-    console.log(filter)
     const searchUrl = "/search/movie";
     const parameters = {
         query: filter,
@@ -60,4 +52,21 @@ const fetchMoviesSearch = async (filter) => {
     return moviesList
 }
 
-export {fetchMoviesTrendingDay, fetchMoviesSearch}
+const fetchMovieDetails = async (id) => {
+    const searchUrl = `/movie/${id}`;
+    const parameters = {};
+    const response = await fetchMovies(searchUrl, parameters);
+    console.log("response:", response.data)
+    const movie = {
+        imageSrc: "https://image.tmdb.org/t/p/w500" + response.data.poster_path,
+        title: response.data.title,
+        user_score: response.data.vote_average,
+        overview: response.data.overview,
+        genres: response.data.genres
+    }
+    console.log()
+    console.log("movie:",movie)
+    return movie
+}
+
+export {fetchMoviesTrendingDay, fetchMoviesSearch, fetchMovieDetails}

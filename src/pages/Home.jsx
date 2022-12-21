@@ -20,10 +20,9 @@ const Home = () => {
 
   return (
     <main>
-      <h1>Trending today</h1>
-      <MoviesList>
-        {movies && movies.map((movie, index) => (
-          <MoviesListItem key={index} movieName={movie.title} />
+      <MoviesList title="Trending today">
+        {movies && movies.map(movie => (
+          <MoviesListItem key={movie.id} movieId={"movies/"+movie.id} movieName={movie.title} />
         ))}
       </MoviesList>
     </main>

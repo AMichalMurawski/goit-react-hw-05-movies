@@ -1,8 +1,8 @@
 import { Link } from './SharedLayout.styled';
 
-const MoviesListItem = ({movieName}) => {
+const MoviesListItem = ({movieId, movieName}) => {
     return (
-        <li><Link to="">{movieName}</Link></li>
+        <li><Link to={`${movieId}`}>{movieName}</Link></li>
     )
 }
 
