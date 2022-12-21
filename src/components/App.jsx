@@ -6,8 +6,6 @@ const Home = lazy(() => import('../pages/Home'));
 const Movies = lazy(() => import('../pages/Movies'));
 const MovieDetails = lazy(() => import('../pages/MovieDetails'));
 
-// const THEMOVIEDB_KEY = 'c8f343487431a47156d389fa5ccb000e';
-
 export const App = () => {
   return (
     <Routes>
@@ -15,6 +13,7 @@ export const App = () => {
         <Route index element={<Home />} />
         <Route path="movies" element={<Movies />} />
         <Route path="movies/:id" element={<MovieDetails />}></Route>
+        <Route path="*" element={<Home />} />
       </Route>
     </Routes>
   );
