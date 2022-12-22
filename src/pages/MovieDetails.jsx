@@ -25,7 +25,7 @@ const MovieDetails = () => {
 
   return (
     <main>
-      <Link to={location.state.from}>&#x2190; Go back</Link>
+      <Link to={location.state ? location.state.from : "/"}>&#x2190; Go back</Link>
       {movie !== null ? (
         (movie ? (
       <section>

@@ -1,10 +1,12 @@
 import MoviesList from "components/MoviesList";
 import MoviesListItem from "components/MoviesListItem";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import {fetchMoviesTrendingDay} from '../js/fetch-the-movie-db.js'
 
 const Home = () => {
   const [movies, setMovies] = useState([])
+  const location = useLocation();
   
   useEffect(() => {
     const fetchMovies = async () => {
@@ -22,7 +24,7 @@ const Home = () => {
     <main>
       <MoviesList title="Trending today">
         {movies && movies.map(movie => (
-          <MoviesListItem key={`${movie.id}`} linkTo={"movies/"+movie.id} movieId={movie.id} movieName={movie.title} />
+          <MoviesListItem key={`${movie.id}`} linkTo={"movies/"+movie.id} fromLocation={location} movieId={movie.id} movieName={movie.title} />
         ))}
       </MoviesList>
     </main>

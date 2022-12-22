@@ -5,7 +5,7 @@ import CastListItem from './CastListItem.jsx';
 
 const CastList = () => {
     const { id } = useParams();
-    const [actors, setActors] = useState(null);
+    const [actors, setActors] = useState(undefined);
 
     useEffect(() => {
         const fetchActors = async () => {
@@ -18,9 +18,9 @@ const CastList = () => {
             })
             .catch(error => {
                 // console.log("Error fetch list of trending movies", error)
-                setActors(null)
+                setActors([])
             })
-    }, [])
+    }, [id])
 
     return (
         <>
@@ -32,7 +32,7 @@ const CastList = () => {
                     })
                     }
                 </ul>)
-                : (<div>We can't find cast...</div>)
+                : actors === undefined ? (<div>Loading cast...</div>) : (<div>We don't have any casts for this movie</div>)
             }
         </>
     )    

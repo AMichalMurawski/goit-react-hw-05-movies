@@ -1,7 +1,7 @@
 const CastListItem = ({id, name, character, srcImage}) => {
     return (
         <li>
-            <img src={srcImage} alt={`actor ${name}`} />
+            {srcImage !== null ? (<img src={srcImage} alt={`actor ${name}`} />) : <p>No image for {name}</p> }
             <p>{name}</p>
             <p>Character: {character}</p>
         </li>

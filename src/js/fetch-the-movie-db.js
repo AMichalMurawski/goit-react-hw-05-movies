@@ -72,7 +72,7 @@ const fetchMovieCast = async (id) => {
         const { id, profile_path, name, character } = actor;
         return actors.push({
             id,
-            srcImage: "https://image.tmdb.org/t/p/w200"+profile_path,
+            srcImage: profile_path !== null ? "https://image.tmdb.org/t/p/w200"+profile_path : null,
             name,
             character,
         })
@@ -84,7 +84,6 @@ const fetchMovieReviews = async (id) => {
     const searchUrl = `/movie/${id}/reviews`;
     const parameters = {};
     const response = await fetchTheMovieDB(searchUrl, parameters);
-    console.log(response)
     let reviews = []
     response.data.results.forEach(review => {
         const { id, author, content } = review;

@@ -5,7 +5,7 @@ import ReviewsListItem from './ReviewsListItem.jsx';
 
 const ReviewsList = () => {
     const { id } = useParams();
-    const [reviews, setReviews] = useState(null);
+    const [reviews, setReviews] = useState(undefined);
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -14,13 +14,17 @@ const ReviewsList = () => {
         }
         fetchReviews()
             .then(newReviews => {
-                setReviews(newReviews)
+                if (newReviews.length > 0) {
+                    setReviews(newReviews)
+                } else {
+                    setReviews(null)
+                }
             })
             .catch(error => {
                 console.log("Error fetch list of trending movies", error)
                 setReviews(null)
             })
-    }, [])
+    }, [id])
 
     return (
         <>
@@ -31,7 +35,7 @@ const ReviewsList = () => {
                         return (<ReviewsListItem key={id} author={author} content={content} />)
                     })}
                 </ul>)
-                : (<div>We don't have any reviews for this movie</div>)
+                : reviews === undefined ? (<div>Loading reviews...</div>) : (<div>We don't have any reviews for this movie</div>)
             }
         </>
     )
