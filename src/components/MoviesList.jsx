@@ -1,10 +1,12 @@
-const MoviesList = ({title, children}) => {
+import { H2, Ul } from './MovieList.styled';
+
+const MoviesList = ({ title, children }) => {
     return (
         <div>
-            <h2>{title}</h2>
-            <ul>
+            <H2>{title}</H2>
+            <Ul>
                 {children}
-            </ul>
+            </Ul>
         </div>
     )
 }

@@ -52,13 +52,14 @@ const fetchMovieDetails = async (id) => {
     const searchUrl = `/movie/${id}`;
     const parameters = {};
     const response = await fetchTheMovieDB(searchUrl, parameters);
-    const { poster_path, title, vote_average, overview, genres }=response.data
+    const { poster_path, title, vote_average, overview, genres, release_date }=response.data
     const movie = {
         src: "https://image.tmdb.org/t/p/w300" + poster_path,
         title,
         vote_average,
         overview,
         genres,
+        year: `${new Date(release_date).getFullYear()}`,
     }
     return movie
 }

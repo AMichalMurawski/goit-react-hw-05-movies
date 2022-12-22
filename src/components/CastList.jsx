@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import {fetchMovieCast} from '../js/fetch-the-movie-db.js'
 import CastListItem from './CastListItem.jsx';
+import { Ul } from './CastList.styled';
 
 const CastList = () => {
     const { id } = useParams();
@@ -25,13 +26,13 @@ const CastList = () => {
     return (
         <>
             {actors
-                ? (<ul>
+                ? (<Ul>
                     {actors.map(actor => {
                         const { id, srcImage, name, character } = actor;
                         return (<CastListItem key={id} srcImage={srcImage} name={name} character={character} />);
                     })
                     }
-                </ul>)
+                </Ul>)
                 : actors === undefined ? (<div>Loading cast...</div>) : (<div>We don't have any casts for this movie</div>)
             }
         </>

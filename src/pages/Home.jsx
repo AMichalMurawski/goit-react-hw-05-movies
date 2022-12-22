@@ -7,7 +7,7 @@ import {fetchMoviesTrendingDay} from '../js/fetch-the-movie-db.js'
 const Home = () => {
   const [movies, setMovies] = useState([])
   const location = useLocation();
-  
+
   useEffect(() => {
     const fetchMovies = async () => {
       const data = await fetchMoviesTrendingDay()
@@ -23,8 +23,8 @@ const Home = () => {
   return (
     <main>
       <MoviesList title="Trending today">
-        {movies && movies.map(movie => (
-          <MoviesListItem key={`${movie.id}`} linkTo={"movies/"+movie.id} fromLocation={location} movieId={movie.id} movieName={movie.title} />
+        {movies && movies.map((movie, index) => (
+          <MoviesListItem key={`${movie.id}`} number={index+1} linkTo={"movies/"+movie.id} fromLocation={location} movieId={movie.id} movieName={movie.title} />
         ))}
       </MoviesList>
     </main>

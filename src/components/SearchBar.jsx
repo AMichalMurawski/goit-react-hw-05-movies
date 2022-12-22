@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Input, Button } from './SearchBar.styled';
 
 const SearchBar = ({ ...props }) => {
     const [filter, setFilter] = useState("");
@@ -15,8 +16,8 @@ const SearchBar = ({ ...props }) => {
     
     return (
         <form onSubmit={e => handleSubmit(e)}>
-            <input type="search" name="searchMovie" value={filter} onChange={e => handleChange(e)}/>
-            <button>Search</button>
+            <Input type="search" name="searchMovie" value={filter} onChange={e => handleChange(e)}/>
+            <Button>Search</Button>
         </form>
     )
 }

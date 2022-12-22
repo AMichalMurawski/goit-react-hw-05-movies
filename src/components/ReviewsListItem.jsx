@@ -1,9 +1,11 @@
-const ReviewsListItem = ({author, content}) => {
+import { Li } from './ReviewsList.styled';
+
+const ReviewsListItem = ({ author, content }) => {
     return (
-        <li>
+        <Li>
             <p>Author: {author}</p>
             <p>{content}</p>
-        </li>
+        </Li>
     )
 }
 

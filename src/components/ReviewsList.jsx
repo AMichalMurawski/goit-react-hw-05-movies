@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { fetchMovieReviews } from '../js/fetch-the-movie-db.js';
 import ReviewsListItem from './ReviewsListItem.jsx';
+import { Ul } from './ReviewsList.styled';
 
 const ReviewsList = () => {
     const { id } = useParams();
@@ -29,12 +30,12 @@ const ReviewsList = () => {
     return (
         <>
             {reviews
-                ? (<ul>
+                ? (<Ul>
                     {reviews.map(review => {
                         const { id, author, content } = review;
                         return (<ReviewsListItem key={id} author={author} content={content} />)
                     })}
-                </ul>)
+                </Ul>)
                 : reviews === undefined ? (<div>Loading reviews...</div>) : (<div>We don't have any reviews for this movie</div>)
             }
         </>

@@ -1,3 +1,0 @@
-# Lista zadań
-
-- Stylizacja stron

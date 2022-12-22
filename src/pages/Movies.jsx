@@ -48,8 +48,8 @@ const Movies = () => {
         ? (<></>)
         : (isList
           ? (<MoviesList>
-        {movies && movies.map(movie => (
-          <MoviesListItem key={movie.id} linkTo={movie.id} fromLocation={location} movieId={movie.id} movieName={movie.title} />
+        {movies && movies.map((movie, index) => (
+          <MoviesListItem key={movie.id} linkTo={movie.id} number={index+1} fromLocation={location} movieId={movie.id} movieName={movie.title} />
         ))}
       </MoviesList>)
             : (<div><p>No results</p></div>)
