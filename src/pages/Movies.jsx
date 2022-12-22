@@ -1,15 +1,20 @@
 import MoviesList from "components/MoviesList";
 import MoviesListItem from "components/MoviesListItem";
 import SearchBar from "components/SearchBar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import {fetchMoviesSearch} from '../js/fetch-the-movie-db.js'
 
 const Movies = () => {
-  const [movies, setMovies] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [movies, setMovies] = useState();
   const [isList, setIsList] = useState(null)
+  const [filter, setFilter] = useState(searchParams.get("query"));
+  const location = useLocation();
 
-  const searchMovies = (filter) => {
+  useEffect(() => {
     if (filter) {
+      setSearchParams({query: filter})
       const fetchMovies = async () => {
         const response = await fetchMoviesSearch(filter)
         return response
@@ -28,17 +33,23 @@ const Movies = () => {
           setIsList(false)
         })
     }
+  },[filter])
+
+  const searchMovies = (filter) => {
+    if (filter) {
+      setFilter(filter)
+    }
   }
 
   return (
     <main>
-      <SearchBar searchMovies={filter => searchMovies(filter)} />
+      <SearchBar filter={filter} searchMovies={filter => searchMovies(filter)} />
       {isList === null
         ? (<></>)
         : (isList
           ? (<MoviesList>
         {movies && movies.map(movie => (
-          <MoviesListItem key={movie.id} movieId={movie.id} movieName={movie.title} />
+          <MoviesListItem key={movie.id} linkTo={movie.id} location={location} movieId={movie.id} movieName={movie.title} />
         ))}
       </MoviesList>)
             : (<div><p>No results</p></div>)

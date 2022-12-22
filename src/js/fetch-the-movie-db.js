@@ -3,10 +3,11 @@ import axios from "axios";
 const THEMOVIEDB_URL = "https://api.themoviedb.org/3"
 const THEMOVIEDB_KEY = 'c8f343487431a47156d389fa5ccb000e';
 
-const fetchMovies = (searchUrl, parameters) =>{
+const fetchTheMovieDB = (searchUrl, parameters) =>{
     return axios.get(THEMOVIEDB_URL + searchUrl, {
         params: {
             api_key: THEMOVIEDB_KEY,
+            language: "en-US",
             ...parameters
         }
     })
@@ -24,7 +25,7 @@ const fetchMovies = (searchUrl, parameters) =>{
 const fetchMoviesTrendingDay = async () => {
     const searchUrl = "/trending/movie/day";
     const parameters = {};
-    const response = await fetchMovies(searchUrl, parameters);
+    const response = await fetchTheMovieDB(searchUrl, parameters);
     let moviesList = [];
     response.data.results.forEach(movie => {
     return moviesList.push({id:movie.id, title:movie.title})
@@ -38,16 +39,11 @@ const fetchMoviesSearch = async (filter) => {
         query: filter,
         page: 1,
     };
-    const response = await fetchMovies(searchUrl, parameters);
+    const response = await fetchTheMovieDB(searchUrl, parameters);
     let moviesList = [];
     response.data.results.forEach(movie => {
-        let title = "";
-        if (movie.title) {
-            title=movie.title
-        } else {
-            title=movie.name
-        }
-        return moviesList.push({id:movie.id, title})
+        const { id, title } = movie;
+        return moviesList.push({id, title})
     });
     return moviesList
 }
@@ -55,18 +51,46 @@ const fetchMoviesSearch = async (filter) => {
 const fetchMovieDetails = async (id) => {
     const searchUrl = `/movie/${id}`;
     const parameters = {};
-    const response = await fetchMovies(searchUrl, parameters);
-    console.log("response:", response.data)
+    const response = await fetchTheMovieDB(searchUrl, parameters);
+    const { poster_path, title, vote_average, overview, genres }=response.data
     const movie = {
-        imageSrc: "https://image.tmdb.org/t/p/w500" + response.data.poster_path,
-        title: response.data.title,
-        user_score: response.data.vote_average,
-        overview: response.data.overview,
-        genres: response.data.genres
+        src: "https://image.tmdb.org/t/p/w300" + poster_path,
+        title,
+        vote_average,
+        overview,
+        genres,
     }
-    console.log()
-    console.log("movie:",movie)
     return movie
 }
 
-export {fetchMoviesTrendingDay, fetchMoviesSearch, fetchMovieDetails}
+const fetchMovieCast = async (id) => {
+    const searchUrl = `/movie/${id}/credits`;
+    const parameters = {};
+    const response = await fetchTheMovieDB(searchUrl, parameters);
+    let actors = [];
+    response.data.cast.forEach(actor => {
+        const { id, profile_path, name, character } = actor;
+        return actors.push({
+            id,
+            srcImage: "https://image.tmdb.org/t/p/w200"+profile_path,
+            name,
+            character,
+        })
+    });
+    return actors
+}
+
+const fetchMovieReviews = async (id) => {
+    const searchUrl = `/movie/${id}/reviews`;
+    const parameters = {};
+    const response = await fetchTheMovieDB(searchUrl, parameters);
+    console.log(response)
+    let reviews = []
+    response.data.results.forEach(review => {
+        const { id, author, content } = review;
+        return reviews.push({ id, author, content });
+    })
+    return reviews
+}
+
+export {fetchMoviesTrendingDay, fetchMoviesSearch, fetchMovieDetails, fetchMovieCast, fetchMovieReviews}

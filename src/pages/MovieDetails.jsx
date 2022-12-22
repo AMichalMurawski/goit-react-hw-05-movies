@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Suspense, useEffect } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import {fetchMovieDetails} from '../js/fetch-the-movie-db.js'
 
 const MovieDetails = () => {
   const { id } = useParams();
+  const location = useLocation();
   const [movie, setMovie] = useState(null)
 
   useEffect(() => {
@@ -15,7 +16,6 @@ const MovieDetails = () => {
     fetchMovies()
       .then(response => {
         setMovie(response)
-        console.log(typeof movie)
       })
       .catch(error => {
         console.log("Error fetch list of trending movies", error)
@@ -25,14 +25,14 @@ const MovieDetails = () => {
 
   return (
     <main>
-      <button>&#x2190; Go back</button>
+      <Link to={location.state.from}>&#x2190; Go back</Link>
       {movie !== null ? (
         (movie ? (
       <section>
-        <img src="" alt="" />
+        <img src={movie.src} alt={`${movie.title} movie poster`} />
         <div>
           <h2>{movie.title}</h2>
-          <p>User Score: {Math.round(movie.user_score * 10)}%</p>
+          <p>User Score: {Math.round(movie.vote_average * 10)}%</p>
           <h3>Overview</h3>
           <p>
             {movie.overview}
@@ -46,7 +46,7 @@ const MovieDetails = () => {
         <p>Additional information</p>
         <ul>
           <li>
-            <Link to="chest">Chest</Link>
+            <Link to="cast">Cast</Link>
           </li>
           <li>
             <Link to="reviews">Reviews</Link>

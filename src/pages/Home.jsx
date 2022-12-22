@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {fetchMoviesTrendingDay} from '../js/fetch-the-movie-db.js'
 
 const Home = () => {
-  const [movies, setMovies] = useState([{ title: "Batman" }, { title: "Superman" }, { title: "Flash" }])
+  const [movies, setMovies] = useState([])
   
   useEffect(() => {
     const fetchMovies = async () => {
@@ -22,7 +22,7 @@ const Home = () => {
     <main>
       <MoviesList title="Trending today">
         {movies && movies.map(movie => (
-          <MoviesListItem key={movie.id} movieId={"movies/"+movie.id} movieName={movie.title} />
+          <MoviesListItem key={`${movie.id}`} linkTo={"movies/"+movie.id} movieId={movie.id} movieName={movie.title} />
         ))}
       </MoviesList>
     </main>
