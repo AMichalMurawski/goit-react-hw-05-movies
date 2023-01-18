@@ -6,23 +6,28 @@ import { Ul } from './CastList.styled';
 
 const CastList = () => {
   const { id } = useParams();
-  const [actors, setActors] = useState(undefined);
+  const [actors, setActors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchActors = async () => {
+      setIsLoading(true);
       const response = await fetchMovieCast(id);
       if (response !== null) {
         setActors([...response]);
       } else {
         setActors([]);
       }
+      setIsLoading(false);
     };
     fetchActors();
   }, [id]);
 
   return (
     <>
-      {actors ? (
+      {!!isLoading ? (
+        <div>Loading cast...</div>
+      ) : actors.length > 0 ? (
         <Ul>
           {actors.map(actor => {
             const { id, srcImage, name, character } = actor;
@@ -36,8 +41,6 @@ const CastList = () => {
             );
           })}
         </Ul>
-      ) : actors === undefined ? (
-        <div>Loading cast...</div>
       ) : (
         <div>We don't have any casts for this movie</div>
       )}
