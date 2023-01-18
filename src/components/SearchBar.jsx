@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Input, Button } from './SearchBar.styled';
 
-const SearchBar = ({ ...props }) => {
+const SearchBar = ({ searchMovies }) => {
     const [filter, setFilter] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.searchMovies(filter);
+        searchMovies(filter);
         setFilter("");
     };
 

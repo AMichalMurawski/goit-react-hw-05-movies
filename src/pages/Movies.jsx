@@ -3,7 +3,7 @@ import MoviesListItem from "components/MoviesListItem";
 import SearchBar from "components/SearchBar";
 import React, { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import {fetchMoviesSearch} from '../js/fetch-the-movie-db.js'
+import {fetchMoviesSearch} from '../api/fetchTheMovies.js'
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -13,25 +13,18 @@ const Movies = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (filter) {
+    if (!!filter) {
       setSearchParams({query: filter})
       const fetchMovies = async () => {
         const response = await fetchMoviesSearch(filter)
-        return response
+        if (response !== null) {
+          setMovies(response);
+          setIsList(true)
+        } else {
+          setIsList(false)
+        }
       }
       fetchMovies()
-        .then(response => {
-          if (response.length > 0) {
-            setMovies(response)
-            setIsList(true)
-          } else {
-            setIsList(false)
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          setIsList(false)
-        })
     }
   },[filter, setSearchParams])
 

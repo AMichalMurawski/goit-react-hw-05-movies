@@ -12,20 +12,20 @@ const fetchTheMovieDB = (searchUrl, parameters) =>{
         }
     })
         .then(response => {
-            if (response.status === 404) {
-                return response
-            }
             return response
         })
-        .then(response => {
-            return response
-        })
+        .catch(error => {
+            return null
+    })
 }
 
 const fetchMoviesTrendingDay = async () => {
     const searchUrl = "/trending/movie/day";
     const parameters = {};
     const response = await fetchTheMovieDB(searchUrl, parameters);
+    if (response === null) {
+        return null
+    }
     let moviesList = [];
     response.data.results.forEach(movie => {
     return moviesList.push({id:movie.id, title:movie.title})
@@ -40,6 +40,9 @@ const fetchMoviesSearch = async (filter) => {
         page: 1,
     };
     const response = await fetchTheMovieDB(searchUrl, parameters);
+    if (response === null) {
+        return null
+    }
     let moviesList = [];
     response.data.results.forEach(movie => {
         const { id, title } = movie;
@@ -52,7 +55,10 @@ const fetchMovieDetails = async (id) => {
     const searchUrl = `/movie/${id}`;
     const parameters = {};
     const response = await fetchTheMovieDB(searchUrl, parameters);
-    const { poster_path, title, vote_average, overview, genres, release_date }=response.data
+    if (response === null) {
+        return null
+    }
+    const { poster_path, title, vote_average, overview, genres, release_date } = response.data
     const movie = {
         src: "https://image.tmdb.org/t/p/w300" + poster_path,
         title,
@@ -68,6 +74,9 @@ const fetchMovieCast = async (id) => {
     const searchUrl = `/movie/${id}/credits`;
     const parameters = {};
     const response = await fetchTheMovieDB(searchUrl, parameters);
+    if (response === null) {
+        return null
+    }
     let actors = [];
     response.data.cast.forEach(actor => {
         const { id, profile_path, name, character } = actor;
@@ -85,6 +94,9 @@ const fetchMovieReviews = async (id) => {
     const searchUrl = `/movie/${id}/reviews`;
     const parameters = {};
     const response = await fetchTheMovieDB(searchUrl, parameters);
+    if (response === null) {
+        return null
+    }
     let reviews = []
     response.data.results.forEach(review => {
         const { id, author, content } = review;

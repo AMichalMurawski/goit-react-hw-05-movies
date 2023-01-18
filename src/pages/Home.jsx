@@ -2,7 +2,7 @@ import MoviesList from "components/MoviesList";
 import MoviesListItem from "components/MoviesListItem";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import {fetchMoviesTrendingDay} from '../js/fetch-the-movie-db.js'
+import {fetchMoviesTrendingDay} from '../api/fetchTheMovies.js'
 
 const Home = () => {
   const [movies, setMovies] = useState([])
@@ -10,14 +10,14 @@ const Home = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const data = await fetchMoviesTrendingDay()
-      return data
+      const response = await fetchMoviesTrendingDay()
+      if (response !== null) {
+        setMovies(response);
+      } else {
+        setMovies([]);
+      }
     }
     fetchMovies()
-      .then(listOfMovies => {
-        setMovies(listOfMovies)
-      })
-    .catch(error => console.log("Error fetch list of trending movies", error))
   },[])
 
   return (

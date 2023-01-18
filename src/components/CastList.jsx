@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import {fetchMovieCast} from '../js/fetch-the-movie-db.js'
+import {fetchMovieCast} from '../api/fetchTheMovies.js'
 import CastListItem from './CastListItem.jsx';
 import { Ul } from './CastList.styled';
 
@@ -10,17 +10,14 @@ const CastList = () => {
 
     useEffect(() => {
         const fetchActors = async () => {
-            const data = await fetchMovieCast(id)
-            return data
+            const response = await fetchMovieCast(id)
+            if (response !== null) {
+                setActors([...response]);
+            } else {
+                setActors([]);
+            }
         }
-        fetchActors()
-            .then(newActors => {
-                setActors([...newActors])
-            })
-            .catch(error => {
-                // console.log("Error fetch list of trending movies", error)
-                setActors([])
-            })
+        fetchActors();
     }, [id])
 
     return (

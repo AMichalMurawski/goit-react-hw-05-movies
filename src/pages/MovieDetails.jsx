@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { Suspense, useEffect } from 'react';
-import { Outlet, useLocation, useParams } from 'react-router-dom';
-import {fetchMovieDetails} from '../js/fetch-the-movie-db.js'
+import { lazy, useState } from 'react';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation, useParams } from 'react-router-dom';
+import {fetchMovieDetails} from '../api/fetchTheMovies.js'
 import { Container, Link, Back, Img, Movie, H2, List, Options } from '../components/SharedLayout.styled';
+
+const CastList = lazy(() => import('../components/CastList'));
+const ReviewsList = lazy(() => import('../components/ReviewsList'));
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -11,17 +14,15 @@ const MovieDetails = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const data = await fetchMovieDetails(id)
-      return data
-    }
-    fetchMovies()
-      .then(response => {
-        setMovie(response)
-      })
-      .catch(error => {
-        console.log("Error fetch list of trending movies", error)
+      const response = await fetchMovieDetails(id)
+      if (response !== null) {
+        setMovie(response);
+      } else {
         setMovie("");
-      })
+      }
+    }
+   fetchMovies()
+
   },[id])
 
   return (
@@ -62,9 +63,10 @@ const MovieDetails = () => {
       ) 
         : (<>Loading movie...</>)}
       </Container>
-      <Suspense fallback={<div>Loading subpage...</div>}>
-        <Outlet />
-      </Suspense>
+        <Routes>
+          <Route path="cast" element={<CastList />} />
+          <Route path="reviews" element={<ReviewsList />} />
+        </Routes>
     </main>
   );
 };
