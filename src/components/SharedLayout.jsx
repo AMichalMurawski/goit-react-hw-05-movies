@@ -8,10 +8,19 @@ export const SharedLayout = () => {
     <Container>
       <Header>
         <Nav>
-          <Link active={location.pathname === "/" ? "true" : "false"} to="/" end>
+          <Link
+            active={location.pathname === '/' ? 'true' : 'false'}
+            to="/"
+            end
+          >
             Home
           </Link>
-          <Link active={location.pathname.startsWith("/movies") ? "true" : "false"} to="/movies">Movies</Link>
+          <Link
+            active={location.pathname.startsWith('/movies') ? 'true' : 'false'}
+            to="/movies"
+          >
+            Movies
+          </Link>
         </Nav>
       </Header>
       <Suspense fallback={<div>Loading page...</div>}>

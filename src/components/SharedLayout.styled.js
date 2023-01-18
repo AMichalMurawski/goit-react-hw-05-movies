@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const activeNav = active => {
   switch (active) {
-    case "true":
-      return "color: red";
-    case "false":
-      return "color: black";
+    case 'true':
+      return 'color: red';
+    case 'false':
+      return 'color: black';
     default:
-      return "color: black";
-  };
+      return 'color: black';
+  }
 };
 
 export const Container = styled.div`
@@ -29,25 +30,25 @@ export const Header = styled.header`
 `;
 
 export const Nav = styled.nav`
-  display:flex;
+  display: flex;
   flex-direction: row;
   gap: 30px;
   font-weight: 700;
   font-size: 24px;
-`
+`;
 
 export const Link = styled(NavLink)`
   text-decoration: none;
   &:hover,
-  &:focus{
-    color:blue;
+  &:focus {
+    color: blue;
   }
-  &:not(:hover,:focus ){
-    ${({active}) => activeNav(active)}
+  &:not(:hover, :focus) {
+    ${({ active }) => activeNav(active)}
   }
   nav &:hover,
-  nav &:focus{
-    color:red;
+  nav &:focus {
+    color: red;
   }
 `;
 
@@ -67,31 +68,31 @@ export const Back = styled(NavLink)`
     background-color: lightblue;
   }
   &:not(:hover,:focus ){
-    ${({active}) => activeNav(active)}
+    ${({ active }) => activeNav(active)}
   }
   nav &:hover,
   nav &:focus{
     color:red;
   }
   .
-`
+`;
 
 export const Img = styled.img`
   width: 280px;
   height: 400px;
-`
+`;
 
 export const Movie = styled.div`
-  padding:20px;
+  padding: 20px;
   display: flex;
   flex-direction: row;
   gap: 30px;
   border-bottom: 1px solid black;
-`
+`;
 
 export const H2 = styled.h2`
-    font-size:30px;
-`
+  font-size: 30px;
+`;
 
 export const List = styled.ul`
   margin: 0;
@@ -99,8 +100,12 @@ export const List = styled.ul`
   list-style: none;
   display: flex;
   gap: 20px;
-`
+`;
 
 export const Options = styled.div`
   border-bottom: 1px solid black;
-`
+`;
+
+activeNav.propTypes = {
+  active: PropTypes.string.isRequired,
+};
